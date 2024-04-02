@@ -28,6 +28,8 @@ export const updateMessage = async (messageId: string, user_id: string, content:
 };
 
 export const deleteMessage = async (messageId: string, user_id: string) => {
+    console.log(messageId)
+    console.log(user_id)
   const response = await request({
     url: `/messages/${messageId}`,
     method: "DELETE",

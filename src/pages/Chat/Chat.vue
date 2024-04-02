@@ -18,8 +18,6 @@
           v-for="(message, idx) in messages"
           :key="idx"
           :message="message"
-          @editMessage="fetchMessages"
-          @deleteMessage="fetchMessages"
         />
       </div>
       <div class="typing-area">
@@ -63,7 +61,7 @@ export interface IMessage {
   created_at: string;
 }
 
-const ws = new WebSocket("ws://localhost:3000/cable");
+const ws = new WebSocket("ws://localhost:3000/ws");
 const roomId = "ChatRoom";
 
 const message = ref<string>("");
@@ -87,6 +85,9 @@ onMounted(() => {
   };
   ws.onmessage = (e) => {
     const data = JSON.parse(e.data);
+
+    console.log(data.message.type)
+    console.log(data.message.data)
     if (data.message.type === "create") {
       messages.value.push(data.message.data);
     }
@@ -117,6 +118,7 @@ function scrollDown(): void {
 }
 
 async function addNewMessage() {
+  console.log("getUserFromStorage: ", getUserFromStorage())
   const user = JSON.parse(getUserFromStorage());
   try {
     await addMessage(user.id, user.name, message.value);
@@ -133,7 +135,6 @@ function fetchMessages(data: Array<IMessage>): void {
   data.forEach((message) => {
     messages.value.push(message);
   });
-  scrollDown();
 }
 </script>
 

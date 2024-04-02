@@ -13,7 +13,7 @@ export const login = async (username: string, password: string) => {
       },
     },
   });
-
+  console.log(response);
   addSessionToStorage(response.token);
   addUserToStorage(JSON.stringify(response.user));
 

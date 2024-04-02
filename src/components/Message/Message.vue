@@ -77,8 +77,9 @@ function editMessage() {
 async function updateExistingMessage() {
   try {
     const response = await updateMessage(props.message.id, user.id, updatedText.value);
-    const data = await response.json();
+    const data = await response.json;
     emit("editMessage");
+    editing.value = false;
     return data;
   } catch (e) {
     error.value = "Something went wrong!";
